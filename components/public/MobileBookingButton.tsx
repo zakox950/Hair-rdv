@@ -2,30 +2,69 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useScrollDirection } from '@/hooks/useScrollDirection';
+import { useEffect, useRef } from 'react';
 
 export function MobileBookingButton() {
   const pathname = usePathname();
-  const scrollDirection = useScrollDirection(10);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isAdmin = pathname.startsWith('/admin');
 
-  if (pathname.startsWith('/admin')) return null;
+  useEffect(() => {
+    if (isAdmin) return;
+    const el = containerRef.current;
+    if (!el) return;
 
-  const isCompact = scrollDirection === 'down';
+    let lastScrollY = window.scrollY || document.documentElement.scrollTop;
+    let ticking = false;
+
+    const update = () => {
+      const currentScrollY = window.scrollY || document.documentElement.scrollTop;
+      const diff = currentScrollY - lastScrollY;
+
+      if (Math.abs(diff) > 8) {
+        if (diff > 0) {
+          // scrolling down — compact
+          el.style.transform = 'translateX(-50%) scale(0.82)';
+          el.style.opacity = '0.82';
+        } else {
+          // scrolling up — full size
+          el.style.transform = 'translateX(-50%) scale(1)';
+          el.style.opacity = '1';
+        }
+        lastScrollY = currentScrollY;
+      }
+
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [isAdmin]);
+
+  if (isAdmin) return null;
 
   return (
     <div
+      ref={containerRef}
       className="md:hidden"
       style={{
         position: 'fixed',
         bottom: 'max(20px, calc(env(safe-area-inset-bottom) + 12px))',
         left: '50%',
-        // Only transform — no layout change, pure GPU compositing
-        transform: `translateX(-50%) scale(${isCompact ? 0.82 : 1})`,
+        transform: 'translateX(-50%) scale(1)',
         transformOrigin: 'center bottom',
         zIndex: 50,
-        opacity: isCompact ? 0.82 : 1,
+        opacity: 1,
         willChange: 'transform, opacity',
-        transition: 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease',
+        // CSS transition handles the smooth animation — React never re-renders
+        transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease',
       }}
     >
       <Link
@@ -34,10 +73,7 @@ export function MobileBookingButton() {
           display: 'block',
           padding: '16px 48px',
           fontSize: '16px',
-          boxShadow: isCompact
-            ? '0 0 8px 1px rgba(245, 158, 11, 0.15)'
-            : '0 0 24px 6px rgba(245, 158, 11, 0.3)',
-          transition: 'box-shadow 0.2s ease',
+          boxShadow: '0 0 24px 6px rgba(245, 158, 11, 0.3)',
         }}
         className="btn-amber"
       >
