@@ -103,35 +103,3 @@ CREATE TABLE safe_emails (
 | 4 | Graphiques admin |
 | 5 | Refonte design admin |
 
-
-
-
-
-
-voila ce sui a ete fait 
-
-
-
-Tout est en place. Voici le résumé de ce qui a été fait :
-
-Fichiers créés / modifiés :
-
-Fichier Changement `hooks/useScrollDirection.ts` Nouveau hook — rAF + passive scroll, fallback scrollTop pour iOS `components/public/MobileBookingButton.tsx` Nouveau — bouton fixe en bas, se compacte au scroll, safe-area-inset `app/layout.tsx` Ajout de `<MobileBookingButton />` (se cache sur `/admin` via `usePathname`) `components/Navbar.tsx` Padding, logo et liens animés au scroll — mobile only `app/globals.css` Media query `max-width: 768px` — typo, cards, sections, `main pb-80px`, `input min-height: 48px` `components/BookingForm.tsx` `p-6 sm:p-8`, grille créneaux `grid-cols-2 sm:grid-cols-4`, barre de progression `h-[3px]`
-
-
-
-Tout fonctionne. La structure confirme :
-
-* Navbar : "Salon Élégance" + liens + "Réserver" présents (node [10]-[28])
-
-* MobileBookingButton : bouton "Réserver" fixe visible en bas (node [327]) — séparé de la navbar
-
-* Section coiffeurs : "Jihad" et "Mohamed" chargés dynamiquement depuis la DB (nodes [194]-[225])
-
-* Aucune erreur dans les logs
-
-Le serveur tourne sur port 3000. Les modifications mobile sont actives — teste sur iPhone ou via les DevTools Chrome (Vue mobile) pour voir le comportement scroll de la navbar et le bouton fixe.
-
-
-
-dernier petit truc , le fps du bouton reserver est giiiiiga lent genre son animation c est pas du tout beau a voir tu peut regler l animation du bouton stp ? on dirait que ya 3 frame entre le bouton petit et le gros

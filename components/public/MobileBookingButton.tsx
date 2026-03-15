@@ -8,7 +8,6 @@ export function MobileBookingButton() {
   const pathname = usePathname();
   const scrollDirection = useScrollDirection(10);
 
-  // Only show on public pages
   if (pathname.startsWith('/admin')) return null;
 
   const isCompact = scrollDirection === 'down';
@@ -20,22 +19,25 @@ export function MobileBookingButton() {
         position: 'fixed',
         bottom: 'max(20px, calc(env(safe-area-inset-bottom) + 12px))',
         left: '50%',
-        transform: 'translateX(-50%)',
+        // Only transform — no layout change, pure GPU compositing
+        transform: `translateX(-50%) scale(${isCompact ? 0.82 : 1})`,
+        transformOrigin: 'center bottom',
         zIndex: 50,
-        transition: 'all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        opacity: isCompact ? 0.82 : 1,
+        willChange: 'transform, opacity',
+        transition: 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease',
       }}
     >
       <Link
         href="/rdv"
         style={{
           display: 'block',
-          padding: isCompact ? '10px 28px' : '16px 48px',
-          fontSize: isCompact ? '13px' : '16px',
-          opacity: isCompact ? 0.82 : 1,
-          transition: 'all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
+          padding: '16px 48px',
+          fontSize: '16px',
           boxShadow: isCompact
             ? '0 0 8px 1px rgba(245, 158, 11, 0.15)'
             : '0 0 24px 6px rgba(245, 158, 11, 0.3)',
+          transition: 'box-shadow 0.2s ease',
         }}
         className="btn-amber"
       >
