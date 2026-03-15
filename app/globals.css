@@ -1,0 +1,270 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS Variables — macOS 26 / Liquid Glass ─────────────────────────────── */
+:root {
+  --radius-xs:   8px;
+  --radius-sm:   12px;
+  --radius-md:   16px;
+  --radius-lg:   20px;
+  --radius-xl:   28px;
+  --radius-2xl:  36px;
+  --radius-pill: 999px;
+
+  --blur-sm:  8px;
+  --blur-md:  16px;
+  --blur-lg:  24px;
+  --blur-xl:  32px;
+  --blur-orb: 80px;
+
+  --glass-bg:           rgba(255, 255, 255, 0.04);
+  --glass-bg-hover:     rgba(255, 255, 255, 0.07);
+  --glass-bg-active:    rgba(255, 255, 255, 0.10);
+  --glass-border:       rgba(255, 255, 255, 0.10);
+  --glass-border-light: rgba(255, 255, 255, 0.18);
+  --glass-shadow:       0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+
+  --amber:      #F59E0B;
+  --amber-hover: #FBBF24;
+  --amber-glow: rgba(245, 158, 11, 0.25);
+
+  /* shadcn base radius override */
+  --radius: 1rem;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply antialiased; }
+}
+
+@layer components {
+
+  /* ── Card principale ────────────────────────────────────────── */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--blur-lg));
+    -webkit-backdrop-filter: blur(var(--blur-lg));
+    border-radius: var(--radius-lg);
+    border-top:    1px solid var(--glass-border-light);
+    border-left:   1px solid var(--glass-border-light);
+    border-bottom: 1px solid var(--glass-border);
+    border-right:  1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+  }
+  .glass:hover {
+    background: var(--glass-bg-hover);
+  }
+
+  /* ── Card légère (navbar, badges) ───────────────────────────── */
+  .glass-sm {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(var(--blur-md));
+    -webkit-backdrop-filter: blur(var(--blur-md));
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--glass-border-light);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  }
+
+  /* ── Modal ──────────────────────────────────────────────────── */
+  .glass-modal {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(var(--blur-xl));
+    -webkit-backdrop-filter: blur(var(--blur-xl));
+    border-radius: var(--radius-xl);
+    border-top:    1px solid var(--glass-border-light);
+    border-left:   1px solid var(--glass-border-light);
+    border-bottom: 1px solid var(--glass-border);
+    border-right:  1px solid var(--glass-border);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.20), 0 4px 16px rgba(0,0,0,0.12);
+  }
+
+  /* ── Bouton amber primaire ──────────────────────────────────── */
+  .btn-amber {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--amber);
+    color: #000;
+    font-weight: 500;
+    font-size: 0.875rem;
+    border-radius: var(--radius-pill);
+    padding: 10px 24px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 0 0 0 var(--amber-glow);
+    transition: background 0.15s ease, box-shadow 0.2s ease, transform 0.1s ease;
+    text-decoration: none;
+  }
+  .btn-amber:hover {
+    background: var(--amber-hover);
+    box-shadow: 0 0 20px 4px var(--amber-glow);
+  }
+  .btn-amber:active { transform: scale(0.97); }
+  .btn-amber:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* ── Bouton glass secondaire ────────────────────────────────── */
+  .btn-glass {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--blur-sm));
+    -webkit-backdrop-filter: blur(var(--blur-sm));
+    color: rgba(255,255,255,0.85);
+    font-weight: 400;
+    font-size: 0.875rem;
+    border-radius: var(--radius-pill);
+    padding: 10px 24px;
+    border: 1px solid var(--glass-border-light);
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    text-decoration: none;
+  }
+  .btn-glass:hover {
+    background: var(--glass-bg-hover);
+    border-color: rgba(255,255,255,0.22);
+  }
+
+  /* ── Input sombre ───────────────────────────────────────────── */
+  .input-dark {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(var(--blur-sm));
+    -webkit-backdrop-filter: blur(var(--blur-sm));
+    border-radius: var(--radius-md);
+    border: 1px solid var(--glass-border);
+    color: rgba(255,255,255,0.9);
+    padding: 12px 16px;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  }
+  .input-dark::placeholder { color: rgba(255,255,255,0.3); }
+  .input-dark:focus {
+    border-color: var(--amber);
+    background: rgba(255,255,255,0.07);
+    box-shadow: 0 0 0 3px var(--amber-glow);
+  }
+
+  /* ── Badge pill ─────────────────────────────────────────────── */
+  .badge-glass {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid var(--glass-border-light);
+    border-radius: var(--radius-pill);
+    padding: 3px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.75);
+    display: inline-block;
+  }
+  .badge-amber {
+    background: var(--amber-glow);
+    border: 1px solid rgba(245,158,11,0.4);
+    border-radius: var(--radius-pill);
+    padding: 3px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--amber);
+    display: inline-block;
+  }
+  .badge-green {
+    background: rgba(16,185,129,0.15);
+    border: 1px solid rgba(16,185,129,0.3);
+    border-radius: var(--radius-pill);
+    padding: 3px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #6ee7b7;
+    display: inline-block;
+  }
+  .badge-red {
+    background: rgba(239,68,68,0.15);
+    border: 1px solid rgba(239,68,68,0.3);
+    border-radius: var(--radius-pill);
+    padding: 3px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #fca5a5;
+    display: inline-block;
+  }
+
+  /* ── Toggle macOS ───────────────────────────────────────────── */
+  .toggle-track {
+    width: 44px;
+    height: 26px;
+    border-radius: var(--radius-pill);
+    background: rgba(255,255,255,0.12);
+    border: 1px solid var(--glass-border);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    flex-shrink: 0;
+  }
+  .toggle-track.active {
+    background: var(--amber);
+    border-color: var(--amber);
+  }
+  .toggle-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-pill);
+    background: #fff;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+  }
+  .toggle-track.active .toggle-thumb {
+    transform: translateX(18px);
+  }
+
+  /* ── Label form ─────────────────────────────────────────────── */
+  .label-dark {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 8px;
+  }
+}
+
+/* ── Mobile — max 768px ──────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* Titres hero */
+  .hero-title {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    line-height: 1.15;
+  }
+
+  /* Cards — border-radius et padding réduits */
+  .glass {
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+  }
+
+  /* Sections — paddings verticaux réduits */
+  section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  /* Espace pour le bouton Réserver fixe en bas */
+  main {
+    padding-bottom: 80px;
+  }
+
+  /* Inputs — hauteur minimum 48px (accessibilité tactile) */
+  .input-dark {
+    min-height: 48px;
+  }
+}

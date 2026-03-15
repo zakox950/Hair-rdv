@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: hairrdv_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: hairrdv
+    ports:
+      - "5433:5432"
+    volumes:
+      - hairrdv_data:/var/lib/postgresql/data
+      - ./db/migrations/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql
+volumes:
+  hairrdv_data:

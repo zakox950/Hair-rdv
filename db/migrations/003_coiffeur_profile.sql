@@ -1,0 +1,2 @@
+ALTER TABLE coiffeur ADD COLUMN IF NOT EXISTS description TEXT;
+ALTER TABLE coiffeur ADD COLUMN IF NOT EXISTS points_forts TEXT[];
